@@ -2,6 +2,8 @@ from bottle import post, redirect, request, response
 import re
 import uuid
 import g
+import sqlite3
+from models.user import find_user, insert_session
 
 @post("/login")
 def login():
@@ -22,11 +24,20 @@ def login():
     
     user_password = request.forms.get("user_password")
 
-    for user in g.USERS:
-        if user_email == user["user_email"] and user_password == user["user_password"]:
+    con = sqlite3.connect('bottle.db')
+    queryset = find_user(con, user_email)
+    if queryset:
+        if user_email == queryset[0][0] and user_password == queryset[0][1]:
             user_session_id = str(uuid.uuid4())
             response.set_cookie("user_email", user_email, secret=g.COOKIE_SECRET)
-            g.SESSIONS.append(user_session_id)
+            insert_session(con, user_session_id, user_email)
+            con.commit()
             response.set_cookie("session_id", user_session_id)
+            con.close()
             return redirect("/tweets")
-    return redirect("/tweets")
+        else:
+            con.close()
+            return "Username and password do not match !!"
+    else:
+        con.close()
+        return "User not found !!"

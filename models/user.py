@@ -5,7 +5,7 @@ import sqlite3
 
 def create_user_model(dbConn: sqlite3.Connection):
     try:
-        dbConn.execute("CREATE TABLE user (id INTEGER PRIMARY KEY, user_id char(50) NOT NULL, first_name char(200) NOT NULL, last_name char(200) NOT NULL, email char(200) NOT NULL, username char(200) NOT NULL UNIQUE, password char(200) NOT NULL)")
+        dbConn.execute("CREATE TABLE user (id INTEGER PRIMARY KEY, user_id char(50) NOT NULL, first_name char(200) NOT NULL, last_name char(200) NOT NULL, email char(200) NOT NULL UNIQUE, username char(200) NOT NULL UNIQUE, password char(200) NOT NULL)")
         print("User table Created")
     except sqlite3.OperationalError:
         print("User table already exists")
@@ -14,7 +14,7 @@ def create_user_model(dbConn: sqlite3.Connection):
 
 def create_session_model(dbConn: sqlite3.Connection):
     try:
-        dbConn.execute("CREATE TABLE session (id INTEGER PRIMARY KEY, session_id char(50) NOT NULL UNIQUE)")
+        dbConn.execute("CREATE TABLE session (id INTEGER PRIMARY KEY, session_id char(50) NOT NULL UNIQUE, email char(200) NOT NULL)")
         print("Session table Created")
     except sqlite3.OperationalError:
         print("Session table already exists")
@@ -41,10 +41,17 @@ def insert_user(dbConn: sqlite3.Connection, **data):
     print(f"Inserted {args} into user table")
     return True, f"User {username} created"
 
-def insert_session(dbConn: sqlite3.Connection, session_id):
-    sql_query = "INSERT INTO session (session_id) VALUES (?)"
+def find_user(dbConn: sqlite3.Connection, email):
+    sql_query = "SELECT email, password FROM user WHERE email=?"
+    c = dbConn.cursor()
+    c.execute(sql_query, (email,))
+    queryset = c.fetchall()
+    return queryset
+
+def insert_session(dbConn: sqlite3.Connection, session_id, email):
+    sql_query = "INSERT INTO session (session_id, email) VALUES (?, ?)"
     try:
-        dbConn.execute(sql_query, session_id)
+        dbConn.execute(sql_query, (session_id, email,))
     except sqlite3.IntegrityError:
         return False, "Session id already exists"
     except Exception as e:
@@ -52,3 +59,10 @@ def insert_session(dbConn: sqlite3.Connection, session_id):
         return False, "Internal Error, contact admin"
     print(f"Inserted {session_id} into session table")
     return True, f"Session {session_id} created"
+
+def find_session_id(dbConn: sqlite3.Connection, session_id):
+    sql_query = "SELECT id FROM session WHERE session_id=?"
+    c = dbConn.cursor()
+    c.execute(sql_query, (session_id,))
+    queryset = c.fetchall()
+    return queryset

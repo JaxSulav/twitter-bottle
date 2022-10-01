@@ -1,0 +1,5 @@
+- Add login finctionality
+- Handle login errors
+- Handle automatic login in signup page
+- New model "session"
+
