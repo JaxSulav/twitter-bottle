@@ -5,3 +5,10 @@
 
 - Manage logout
 - Automatic login when going on home page if session exists
+
+- Create tweet model
+- Implement Add Tweet
+- Display all tweets from tweet table in /tweets page
+- Change query in find_user
+- Update tweet in tweet feed without refreshing, app.js which will async await for tweet creat POST api for user data
+- Show tweet with image if it has image, else show tweet with only text

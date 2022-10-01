@@ -28,13 +28,16 @@ def create_user():
     user_email = request.forms.get("user_email")
     user_name = request.forms.get("user_name")
     user_password = request.forms.get("user_password")
+    user_image = request.forms.get("user_image")
+    
     user = {
         "user_id": user_id,
         "user_first_name": user_first_name,
         "user_last_name": user_last_name,
         "user_email": user_email,
         "user_name": user_name,
-        "user_password": user_password
+        "user_password": user_password,
+        "user_image_path": user_image
     }
 
     con = sqlite3.connect('bottle.db')

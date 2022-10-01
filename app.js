@@ -67,7 +67,6 @@ async function sendTweet(){
   const form = event.target
   // Get the button, set the data-await, and disable it
   const button = _one("button[type='submit']", form)
-  console.log(button)
   button.innerText = button.dataset.await
   // button.innerText = button.getAttribute("data-await")
   button.disabled = true
@@ -91,19 +90,22 @@ async function sendTweet(){
   let tweet = `
     <div id="${parsedTweet.id}" class="p-4 border-t border-slate-200">
     <div class="flex">
-      <img class="flex-none w-12 h-12 rounded-full" src="/images/1.jpg" alt="">
+      <img class="flex-none w-12 h-12 rounded-full" src="/images/${parsedTweet.user_image}" alt="">
       <div class="w-full pl-4">
         <p class="font-bold">
-          @${parsedTweet.user_name}
+          @${parsedTweet.username}
         </p>            
         <p class="font-thin">
-          ${parsedTweet.user_first_name} ${parsedTweet.user_last_name}
+          ${parsedTweet.first_name} ${parsedTweet.last_name}
         </p>                
         <div class="pt-2 tweet-text">
           ${_one("input", form).value}
-        </div>
+        </div>`
+        if (parsedTweet.image){
+          tweet = tweet + `<img class="mt-2 w-full object-cover h-80" src="/images/${parsedTweet.image}"></img>`
+        }
         
-        <div class="flex gap-12 mt-4 text-lg text-gray-400 justify-between">
+        tweet = tweet + `<div class="flex gap-12 mt-4 text-lg text-gray-400 justify-between">
         <div class="hover:text-red-300 cursor-pointer">
         <i onclick="delete_tweet('${parsedTweet.id}')" class="fas fa-trash ml-auto"></i>
                 </div>
@@ -128,9 +130,6 @@ async function sendTweet(){
                   </button>
                  
                 </div>
-
-               
-
            </div>
       </div>
     </div>
