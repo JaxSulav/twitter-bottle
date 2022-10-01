@@ -4,7 +4,7 @@ import jwt
 import uuid
 import g
 import re
-from models.user import insert_user
+from models.user import insert_user, insert_session
 
 
 
@@ -28,25 +28,29 @@ def create_user():
     user_email = request.forms.get("user_email")
     user_name = request.forms.get("user_name")
     user_password = request.forms.get("user_password")
+    user_image = request.forms.get("user_image")
+    
     user = {
         "user_id": user_id,
         "user_first_name": user_first_name,
         "user_last_name": user_last_name,
         "user_email": user_email,
         "user_name": user_name,
-        "user_password": user_password
+        "user_password": user_password,
+        "user_image_path": user_image
     }
 
     con = sqlite3.connect('bottle.db')
-    success, message = insert_user(con, **user)
+    success, _ = insert_user(con, **user)
     con.commit()
-    con.close()
 
     encoded_jwt = jwt.encode(user, "secret", algorithm="HS256")
     user_session_id = str(uuid.uuid4())
     response.set_cookie("user_email", user_email, secret=g.COOKIE_SECRET)
-    g.SESSIONS.append(user_session_id)
+    insert_session(con, user_session_id, user_email)
+    con.commit()
     response.set_cookie("session_id", user_session_id)
+    con.close()
 
     if success:
         return redirect("/tweets")

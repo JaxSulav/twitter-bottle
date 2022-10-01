@@ -21,7 +21,8 @@ import login_post
 import os
 import sqlite3
 import argparse
-from models.user import create_user_model, create_session_model
+from models.user import create_user_model, create_session_model, find_session_id
+from models.tweets import create_tweet_model
 
 app = Bottle()
 
@@ -94,6 +95,13 @@ def _():
 @get("/")
 @view("index")
 def index():
+    # Send to tweets page if already logged in
+    user_session_id = request.get_cookie("session_id")
+    con = sqlite3.connect('bottle.db')
+    queryset = find_session_id(con, user_session_id)
+    con.close()
+    if queryset:
+        return redirect("/tweets")
     return
 
 ############## युजर बनाउछ ###############################
@@ -143,6 +151,7 @@ def migrate_db():
     con = sqlite3.connect('bottle.db')
     create_user_model(con)
     create_session_model(con)
+    create_tweet_model(con)
     con.commit()
     con.close()
 

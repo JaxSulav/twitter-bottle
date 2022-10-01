@@ -1,11 +1,8 @@
-
-
-from logging import exception
 import sqlite3
 
 def create_user_model(dbConn: sqlite3.Connection):
     try:
-        dbConn.execute("CREATE TABLE user (id INTEGER PRIMARY KEY, user_id char(50) NOT NULL, first_name char(200) NOT NULL, last_name char(200) NOT NULL, email char(200) NOT NULL, username char(200) NOT NULL UNIQUE, password char(200) NOT NULL)")
+        dbConn.execute("CREATE TABLE user (id INTEGER PRIMARY KEY, user_id char(50) NOT NULL, first_name char(200) NOT NULL, last_name char(200) NOT NULL, image char(200), email char(200) NOT NULL UNIQUE, username char(200) NOT NULL UNIQUE, password char(200) NOT NULL)")
         print("User table Created")
     except sqlite3.OperationalError:
         print("User table already exists")
@@ -14,7 +11,7 @@ def create_user_model(dbConn: sqlite3.Connection):
 
 def create_session_model(dbConn: sqlite3.Connection):
     try:
-        dbConn.execute("CREATE TABLE session (id INTEGER PRIMARY KEY, session_id char(50) NOT NULL UNIQUE)")
+        dbConn.execute("CREATE TABLE session (id INTEGER PRIMARY KEY, session_id char(50) NOT NULL UNIQUE, email char(200) NOT NULL)")
         print("Session table Created")
     except sqlite3.OperationalError:
         print("Session table already exists")
@@ -28,9 +25,10 @@ def insert_user(dbConn: sqlite3.Connection, **data):
     email = data.get("user_email", None)
     username = data.get("user_name", None)
     password = data.get("user_password", None)
+    image_path = data.get("user_image_path")
 
-    sql_query = "INSERT INTO user (user_id, first_name, last_name, email, username, password) VALUES (?,?,?,?,?,?)"
-    args = user_id, first_name, last_name, email, username, password
+    sql_query = "INSERT INTO user (user_id, first_name, last_name, email, username, password, image) VALUES (?,?,?,?,?,?,?)"
+    args = user_id, first_name, last_name, email, username, password, image_path
     try:
         dbConn.execute(sql_query, args)
     except sqlite3.IntegrityError:
@@ -41,10 +39,17 @@ def insert_user(dbConn: sqlite3.Connection, **data):
     print(f"Inserted {args} into user table")
     return True, f"User {username} created"
 
-def insert_session(dbConn: sqlite3.Connection, session_id):
-    sql_query = "INSERT INTO session (session_id) VALUES (?)"
+def find_user(dbConn: sqlite3.Connection, email):
+    sql_query = "SELECT email, password, id, username, first_name, last_name, image FROM user WHERE email=?"
+    c = dbConn.cursor()
+    c.execute(sql_query, (email,))
+    queryset = c.fetchall()
+    return queryset
+
+def insert_session(dbConn: sqlite3.Connection, session_id, email):
+    sql_query = "INSERT INTO session (session_id, email) VALUES (?, ?)"
     try:
-        dbConn.execute(sql_query, session_id)
+        dbConn.execute(sql_query, (session_id, email,))
     except sqlite3.IntegrityError:
         return False, "Session id already exists"
     except Exception as e:
@@ -52,3 +57,21 @@ def insert_session(dbConn: sqlite3.Connection, session_id):
         return False, "Internal Error, contact admin"
     print(f"Inserted {session_id} into session table")
     return True, f"Session {session_id} created"
+
+def find_session_id(dbConn: sqlite3.Connection, session_id):
+    sql_query = "SELECT id FROM session WHERE session_id=?"
+    c = dbConn.cursor()
+    c.execute(sql_query, (session_id,))
+    queryset = c.fetchall()
+    return queryset
+
+def delete_session_id(dbConn: sqlite3.Connection, session_id, email):
+    sql_query = "DELETE FROM session WHERE session_id=?"
+    try:
+        dbConn.execute(sql_query, (session_id,))
+    except Exception as e:
+        print(f"Could not delete session {session_id} for user: {email}: {e}")
+        return False
+    
+    print(f"Deleted user session {session_id} for user: {email}")
+    return True
