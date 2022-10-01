@@ -3,3 +3,5 @@
 - Handle automatic login in signup page
 - New model "session"
 
+- Manage logout
+- Automatic login when going on home page if session exists

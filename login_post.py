@@ -3,10 +3,18 @@ import re
 import uuid
 import g
 import sqlite3
-from models.user import find_user, insert_session
+from models.user import find_user, insert_session, find_session_id
 
 @post("/login")
 def login():
+    # Redirect to /tweets page if already logged in
+    user_session_id = request.get_cookie("session_id")
+    con = sqlite3.connect('bottle.db')
+    queryset = find_session_id(con, user_session_id)
+    if queryset:
+        con.close()
+        return redirect("/tweets")
+
     if not request.forms.get("user_email"):
         return redirect("/login?error=user_email")
 
@@ -24,7 +32,6 @@ def login():
     
     user_password = request.forms.get("user_password")
 
-    con = sqlite3.connect('bottle.db')
     queryset = find_user(con, user_email)
     if queryset:
         if user_email == queryset[0][0] and user_password == queryset[0][1]:

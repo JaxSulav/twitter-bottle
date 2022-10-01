@@ -66,3 +66,14 @@ def find_session_id(dbConn: sqlite3.Connection, session_id):
     c.execute(sql_query, (session_id,))
     queryset = c.fetchall()
     return queryset
+
+def delete_session_id(dbConn: sqlite3.Connection, session_id, email):
+    sql_query = "DELETE FROM session WHERE session_id=?"
+    try:
+        dbConn.execute(sql_query, (session_id,))
+    except Exception as e:
+        print(f"Could not delete session {session_id} for user: {email}: {e}")
+        return False
+    
+    print(f"Deleted user session {session_id} for user: {email}")
+    return True
