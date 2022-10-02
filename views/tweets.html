@@ -71,12 +71,12 @@
       <div class="fixed h-screen w-1/5 px-1 lg:px-6 flex flex-col py-6">
         <div class="">
           <div class="">
-            <i class="fa-brands fa-twitter fa-fw text-4xl text-blue1 pl-5"></i>
+            <i style="font-size: xxx-large;" class="fa fa-twitter text-4xl text-blue1 pl-5"></i>
           </div>
           <div class="">
             % for tab in tabs:
             <div class="mt-6">
-              <a class="text-xl hover:bg-lighter rounded-full py-3 px-6" href="{{tab['href']}}">
+              <a class="text-xl hover:bg-lighter rounded-full py-3 px-0" href="{{tab['href']}}">
                 <i class="{{tab['icon']}}"></i>
                 <span class="ml-2 hidden md:inline">{{tab['title']}}</span>
               </a>
@@ -118,7 +118,7 @@
 
       <div class="p-4">
         <form class="relative" onsubmit="return false">
-          <i class="fas fa-search absolute top-4 left-4"></i>
+          <i class="fa fa-search absolute top-4 left-4"></i>
           <input class="w-full h-12 px-4 rounded-full placeholder:text-gray-700 bg-gray-100 pl-12 outline-none"
             type="text" placeholder="What are you interested in ?">
         </form>
