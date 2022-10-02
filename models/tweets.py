@@ -17,8 +17,12 @@ def insert_tweet(dbConn: sqlite3.Connection, **data):
     text = data.get("text", None)
     like = data.get("like", None)
 
-    sql_query = "INSERT INTO tweet(image, date, text, like, user_id) VALUES (?,?,?,?,?)"
-    args = image, date, text, like, user_id
+    if image:
+        sql_query = "INSERT INTO tweet(image, date, text, like, user_id) VALUES (?,?,?,?,?)"
+        args = image, date, text, like, user_id
+    else:
+        sql_query = "INSERT INTO tweet(date, text, like, user_id) VALUES (?,?,?,?)"
+        args = date, text, like, user_id
     try:
         dbConn.execute(sql_query, args)
     except Exception as e:
@@ -29,7 +33,7 @@ def insert_tweet(dbConn: sqlite3.Connection, **data):
 
 def get_all_tweets(dbConn: sqlite3.Connection):
     c = dbConn.cursor()
-    c.execute("SELECT user.image, user.first_name, user.last_name, user.username, tweet.date, tweet.text, tweet.image, tweet.like, tweet.id from user LEFT JOIN tweet ON user.id=tweet.user_id")
+    c.execute("SELECT user.image, user.first_name, user.last_name, user.username, tweet.date, tweet.text, tweet.image, tweet.like, tweet.id from tweet LEFT JOIN user ON tweet.user_id=user.id ORDER BY date DESC")
     res = c.fetchall()
     final = []
     for r in res:
@@ -40,7 +44,8 @@ def get_all_tweets(dbConn: sqlite3.Connection):
         temp["user_username"] = r[3]
         temp["tweet_date"] = r[4]
         temp["tweet_text"] = r[5]
-        temp["tweet_image"] = r[6]
+        if r[6]:
+            temp["tweet_image"] = r[6]
         temp["tweet_like"] = r[7]
         temp["tweet_id"] = r[8]
         final.append(temp)

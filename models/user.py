@@ -25,13 +25,14 @@ def insert_user(dbConn: sqlite3.Connection, **data):
     email = data.get("user_email", None)
     username = data.get("user_name", None)
     password = data.get("user_password", None)
-    image_path = data.get("user_image_path")
+    image_path = data.get("user_image_path", "default.jpg")
 
     sql_query = "INSERT INTO user (user_id, first_name, last_name, email, username, password, image) VALUES (?,?,?,?,?,?,?)"
     args = user_id, first_name, last_name, email, username, password, image_path
     try:
         dbConn.execute(sql_query, args)
-    except sqlite3.IntegrityError:
+    except sqlite3.IntegrityError as e:
+        print(e)
         return False, "Username already exists"
     except Exception as e:
         print(f"Error: {e}")

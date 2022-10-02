@@ -12,4 +12,5 @@ def login():
     if queryset:
         con.close()
         return redirect("/tweets")
+    con.close()
     return

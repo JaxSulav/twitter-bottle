@@ -5,8 +5,7 @@ import sqlite3
 from models.tweets import insert_tweet
 
 from models.user import find_user
-
-
+from datetime import datetime
 
 
 @post("/api-create-tweet")
@@ -23,7 +22,7 @@ def _():
    
     if queryset:
         tweet = {
-            "date": "Feb 20",
+            "date": datetime.now().strftime("%Y-%m-%d"),
             "text": tweet_text,
             "image": "1.jpg",
             "like": "130",

@@ -16,3 +16,11 @@
 - Create and toggle tweet modal
 - Prettify tweet modal
 - Ensure functionality in tweet modal
+
+- Add fixtures
+- Set default image by default
+- Remove image field from user creation form
+- Set the tweet image only if image is provided
+- Change the table_name position on LEFT JOIN in get_all_tweets, to get all the tweets not all the users
+- Change date format in tweet model
+- Set current date when saving tweets
