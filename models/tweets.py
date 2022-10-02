@@ -1,4 +1,5 @@
 import sqlite3
+from datetime import datetime
 
 def create_tweet_model(dbConn: sqlite3.Connection):
     try:
@@ -38,11 +39,12 @@ def get_all_tweets(dbConn: sqlite3.Connection):
     final = []
     for r in res:
         temp = dict()
+        tweet_date = datetime.strptime(r[4], '%Y-%m-%d').strftime('%b%w')
         temp["user_image"] = r[0]
         temp["user_first_name"] = r[1]
         temp["user_last_name"] = r[2]
         temp["user_username"] = r[3]
-        temp["tweet_date"] = r[4]
+        temp["tweet_date"] = tweet_date
         temp["tweet_text"] = r[5]
         if r[6]:
             temp["tweet_image"] = r[6]

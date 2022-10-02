@@ -24,3 +24,6 @@
 - Change the table_name position on LEFT JOIN in get_all_tweets, to get all the tweets not all the users
 - Change date format in tweet model
 - Set current date when saving tweets
+
+- Display date in tweets
+
