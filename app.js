@@ -85,7 +85,7 @@ async function sendTweet(){
   
   const tweetResponse = await connection.text() // tweet id will be here
   const parsedTweet = JSON.parse(tweetResponse)
-  // console.log()
+  console.log("PT: ", parsedTweet)
   // Success
   let tweet = `
     <div id="${parsedTweet.id}" class="p-4 border-t border-slate-200">
@@ -96,7 +96,7 @@ async function sendTweet(){
           @${parsedTweet.username}
         </p>            
         <p class="font-thin">
-          ${parsedTweet.first_name} ${parsedTweet.last_name}
+          ${parsedTweet.first_name} ${parsedTweet.last_name} <strong>.</strong> ${parsedTweet.date}
         </p>                
         <div class="pt-2 tweet-text">
           ${_one("input", form).value}
@@ -105,35 +105,33 @@ async function sendTweet(){
           tweet = tweet + `<img class="mt-2 w-full object-cover h-80" src="/images/${parsedTweet.image}"></img>`
         }
         
-        tweet = tweet + `<div class="flex gap-12 mt-4 text-lg text-gray-400 justify-between">
-        <div class="hover:text-red-300 cursor-pointer">
-        <i onclick="delete_tweet('${parsedTweet.id}')" class="fas fa-trash ml-auto"></i>
+        tweet = tweet + `
+        <div class="flex gap-12 mt-4 text-lg text-gray-400 justify-between">
+                <div id="comm" class="cursor-pointer">
+                  <i class="fa fa-comment"></i>
                 </div>
-                <div class="hover:text-red-300 cursor-pointer">
-                  <i class="fa-solid fa-message ml-auto"></i>
+                <div id="del" class="cursor-pointer">
+                  <i onclick="delete_tweet(${parsedTweet.id})" class="material-icons">delete</i>
+                </div>
+                <div id="like" class="cursor-pointer">
+                  <button type="button" onclick="likeTweet(${parsedTweet.id})">
+                    <div id="likes${parsedTweet.id}" style="display: inherit;" class="cursor-pointer">
+                      <i class="fa fa-heart"></i>
+                    </div>
+                  </button>
+                  <span id="likes_span${parsedTweet.id}" class="text-sm"
+                    value="0">0</span>
                 </div>
 
-                <div class="hover:text-blue1">
-                  <button type="button" onclick="likeTweet('${parsedTweet.id}')">
-                    <i class="fa-solid fa-heart"></i>
-                  </button>
-                  <span class="text-sm" id="likes${parsedTweet.id}" value="0"></span>
+                <div id="retweet" class="cursor-pointer">
+                  <i class="fa fa-retweet"></i>
                 </div>
 
                 <div>
-                  <i class="fa-solid fa-retweet"></i>
+                  <i class="fa-solid fa-pen-to-square"></i>
                 </div>
 
-                <div class="hover:text-blue1">
-                  <button type="button" onclick="updateTweet('${parsedTweet.id}', '${parsedTweet.text}')">
-                  <i class="fa-solid fa-pen-to-square"></i>
-                  </button>
-                 
-                </div>
-           </div>
-      </div>
-    </div>
-  </div> 
+              </div>
   `
   _one("input", form).value = ""  
 

@@ -17,6 +17,7 @@ def insert_tweet(dbConn: sqlite3.Connection, **data):
     date = data.get("date", None)
     text = data.get("text", None)
     like = data.get("like", None)
+    tweet_id = None
 
     if image:
         sql_query = "INSERT INTO tweet(image, date, text, like, user_id) VALUES (?,?,?,?,?)"
@@ -25,12 +26,13 @@ def insert_tweet(dbConn: sqlite3.Connection, **data):
         sql_query = "INSERT INTO tweet(date, text, like, user_id) VALUES (?,?,?,?)"
         args = date, text, like, user_id
     try:
-        dbConn.execute(sql_query, args)
+        c = dbConn.execute(sql_query, args)
+        tweet_id = c.lastrowid
     except Exception as e:
         print(f"Error: {e}")
-        return False, "Internal Error, contact admin"
+        return False, "Internal Error, contact admin", tweet_id
     print(f"Inserted {args} into tweet table")
-    return True, f"Tweet created"
+    return True, f"Tweet created", tweet_id
 
 def get_all_tweets(dbConn: sqlite3.Connection, request_user_email):
     c = dbConn.cursor()
@@ -39,7 +41,12 @@ def get_all_tweets(dbConn: sqlite3.Connection, request_user_email):
     final = []
     for r in res:
         temp = dict()
-        tweet_date = datetime.strptime(r[4], '%Y-%m-%d').strftime('%b %d')
+        try:
+            tweet_date = datetime.strptime(r[4], '%Y-%m-%d %H:%M:%S').strftime('%b %d')
+        except ValueError as e:
+            print("Error due to date in not saved in proper format", e)
+            tweet_date = datetime.strptime(r[4], '%Y-%m-%d').strftime('%b %d')
+        
         temp["user_image"] = r[0]
         temp["user_first_name"] = r[1]
         temp["user_last_name"] = r[2]

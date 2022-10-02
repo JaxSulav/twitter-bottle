@@ -14,47 +14,50 @@
 </head>
 
 <body class="w-full h-screen">
-  
+
   <div id="tweetModal" style="justify-content: center;" class="w3-modal flex w-full mx-auto xl:w-4/5">
-    <div style="border-radius: 25px; padding: 20px;"  class="w3-modal-content w3-animate-top">
-        <div style="border-radius: 25px;">
-          <strong><span style="position: inherit; display: contents;" onclick="document.getElementById('tweetModal').style.display='none'"
-      class="w3-button w3-display-topright">&times;</span></strong>
-          <form style="border-radius: 25px;" class="flex flex-col relative pb-14 border border-blue1 rounded"
-            onsubmit="validate(sendTweet); return false" autocomplete="off">
-            <label for="txt-tweet" class="w-full font-thin text-sm text-gray-400 pt-2 pl-4">1 to 100 characters</label>
-            <input name="tweet_text" id="txt-tweet"
-              class="w-full h-12 p-4 text-gray-800 rounded outline-none placeholder:text-gray-800" type="text"
-              placeholder="What is in your mind ?" data-validate="str" data-min="1" data-max="100">
-            
-            <button type="submit" onclick="document.getElementById('tweetModal').style.display='none'" class="absolute bottom-2 right-2 px-8 py-2 bg-blue2 text-white rounded-full"
-              data-default="Tweet" data-await="Tweeting...">
-              Tweet
-            </button>
-          </form>
-          </div>
-        </div>
-        </div>
+    <div style="border-radius: 25px; padding: 20px;" class="w3-modal-content w3-animate-top">
+      <div style="border-radius: 25px;">
+        <strong><span style="position: inherit; display: contents;"
+            onclick="document.getElementById('tweetModal').style.display='none'"
+            class="w3-button w3-display-topright">&times;</span></strong>
+        <form style="border-radius: 25px;" class="flex flex-col relative pb-14 border border-blue1 rounded"
+          onsubmit="validate(sendTweet); return false" autocomplete="off">
+          <label for="txt-tweet" class="w-full font-thin text-sm text-gray-400 pt-2 pl-4">1 to 100 characters</label>
+          <input name="tweet_text" id="txt-tweet"
+            class="w-full h-12 p-4 text-gray-800 rounded outline-none placeholder:text-gray-800" type="text"
+            placeholder="What is in your mind ?" data-validate="str" data-min="1" data-max="100">
+
+          <button type="submit" onclick="document.getElementById('tweetModal').style.display='none'"
+            class="absolute bottom-2 right-2 px-8 py-2 bg-blue2 text-white rounded-full" data-default="Tweet"
+            data-await="Tweeting...">
+            Tweet
+          </button>
+        </form>
       </div>
     </div>
   </div>
+  </div>
+  </div>
+  </div>
   <section id="tweeatModal" style="justify-content: center;" class="flex w-full mx-auto xl:w-4/5 hidden">
-      <div class="w-2/4 border-x border-gray-300">
-        <div class="px-6">
-          <form class="flex flex-col relative pb-14 border border-blue1 rounded"
-            onsubmit="validate(sendTweet); return false" autocomplete="off">
-            <label for="txt-tweet" class="w-full font-thin text-sm text-gray-400 pt-2 pl-4">1 to 100 characters</label>
-            <input name="tweet_text" id="txt-tweet"
-              class="w-full h-12 p-4 text-gray-800 rounded outline-none placeholder:text-gray-800" type="text"
-              placeholder="What is in your mind ?" data-validate="str" data-min="1" data-max="100">
-            
-            <button type="submit" onclick="document.getElementById('tweetModal').style.display='none'" class="absolute bottom-2 right-2 px-8 py-2 bg-blue2 text-white rounded-full"
-              data-default="Tweet" data-await="Tweeting...">
-              Tweet
-            </button>
-          </form>
-        </div>
+    <div class="w-2/4 border-x border-gray-300">
+      <div class="px-6">
+        <form class="flex flex-col relative pb-14 border border-blue1 rounded"
+          onsubmit="validate(sendTweet); return false" autocomplete="off">
+          <label for="txt-tweet" class="w-full font-thin text-sm text-gray-400 pt-2 pl-4">1 to 100 characters</label>
+          <input name="tweet_text" id="txt-tweet"
+            class="w-full h-12 p-4 text-gray-800 rounded outline-none placeholder:text-gray-800" type="text"
+            placeholder="What is in your mind ?" data-validate="str" data-min="1" data-max="100">
+
+          <button type="submit" onclick="document.getElementById('tweetModal').style.display='none'"
+            class="absolute bottom-2 right-2 px-8 py-2 bg-blue2 text-white rounded-full" data-default="Tweet"
+            data-await="Tweeting...">
+            Tweet
+          </button>
+        </form>
       </div>
+    </div>
     </div>
   </section>
 
@@ -80,7 +83,8 @@
             </div>
             % end
           </div>
-          <button onclick="document.getElementById('tweetModal').style.display='block'" class="mt-8 w-full py-2 text-lg text-white bg-blue1 rounded-full">
+          <button onclick="document.getElementById('tweetModal').style.display='block'"
+            class="mt-8 w-full py-2 text-lg text-white bg-blue1 rounded-full">
             Tweet
           </button>
         </div>
@@ -97,12 +101,12 @@
             <button class="py-2 px-4 bg-white rounded-full">
               ...
             </button>
-            
+
           </div>
-        </div>  
-      
-     
-        
+        </div>
+
+
+
       </div>
     </div>
     % # end left
@@ -159,21 +163,22 @@
               <div class="flex gap-12 mt-4 text-lg text-gray-400 justify-between">
                 <div id="comm" class="cursor-pointer">
                   <i class="fa fa-comment"></i>
-              </div>
+                </div>
                 <div id="del" class="cursor-pointer">
                   <i onclick="delete_tweet({{tweet['tweet_id']}})" class="material-icons">delete</i>
-                    </div>
+                </div>
                 <div id="like" class="cursor-pointer">
                   <button type="button" onclick="likeTweet({{tweet['tweet_id']}})">
-                  <div id="likes{{tweet['tweet_id']}}" style="display: inherit;" class="cursor-pointer">
-                    %if tweet["liked"]:
-                      <i  style="color: deeppink;" class="fa fa-heart"></i>
-                    %else:
+                    <div id="likes{{tweet['tweet_id']}}" style="display: inherit;" class="cursor-pointer">
+                      %if tweet["liked"]:
+                      <i style="color: deeppink;" class="fa fa-heart"></i>
+                      %else:
                       <i class="fa fa-heart"></i>
-                    %end
-                  </div>
+                      %end
+                    </div>
                   </button>
-                  <span id="likes_span{{tweet['tweet_id']}}" class="text-sm"  value="{{tweet['tweet_like']}}">{{tweet['tweet_like']}}</span>
+                  <span id="likes_span{{tweet['tweet_id']}}" class="text-sm"
+                    value="{{tweet['tweet_like']}}">{{tweet['tweet_like']}}</span>
                 </div>
 
                 <div id="retweet" class="cursor-pointer">
@@ -184,7 +189,7 @@
                   <i class="fa-solid fa-pen-to-square"></i>
                 </div>
 
-           </div>
+              </div>
               <!-- <div class="flex gap-12 w-full mt-4 text-lg">
                 <i onclick="delete_tweet('${tweet_id}')" class="fas fa-trash ml-auto"></i>
                 <i class="fa-solid fa-message"></i>
@@ -192,7 +197,7 @@
                 <i class="fa-solid fa-retweet"></i>
                 <i class="fa-solid fa-share-nodes"></i>
               </div> -->
-              
+
             </div>
           </div>
         </div>
@@ -249,16 +254,19 @@
   <script src="app.js"></script>
   <script src="validator.js"></script>
   <style>
-    #del:hover{
+    #del:hover {
       color: orangered;
     }
-    #comm:hover{
+
+    #comm:hover {
       color: darkturquoise;
     }
-    #like:hover{
+
+    #like:hover {
       color: deeppink;
     }
-    #retweet:hover{
+
+    #retweet:hover {
       color: lightseagreen;
     }
   </style>

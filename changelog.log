@@ -35,3 +35,9 @@
 - Fix bug - was saving twitter post user email in tweet_like table, causing to no show colorized like button
 - Color the like button without refreshing
 - Add the number increment in like button without refreshing
+616fff44c29d2df35cc753de01b1e1e3979c1f18
+
+- Set default value of like to zero
+- Make like button work after adding new tweet
+- Save tweets time to sort according to date and time in DESC
+- Fix date not showing in first time tweet creation

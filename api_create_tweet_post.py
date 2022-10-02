@@ -19,20 +19,24 @@ def _():
     queryset = find_user(con, user_email)
    
     if queryset:
+        date = datetime.now()
         tweet = {
-            "date": datetime.now().strftime("%Y-%m-%d"),
+            "date": date.strftime("%Y-%m-%d %H:%M:%S"),
             "text": tweet_text,
             "image": "1.jpg",
-            "like": "130",
+            "like": "0",
             "user_id": queryset[0][2],
             "username": queryset[0][3],
             "first_name": queryset[0][4],
             "last_name": queryset[0][5],
             "user_image": queryset[0][6]
         }
-        success, message = insert_tweet(con, **tweet)
+        success, _, tweet_id = insert_tweet(con, **tweet)
         con.commit()
+        tweet['date'] = date.strftime("%b %d")
         if success:
+            if tweet_id:
+                tweet["id"] = tweet_id
             con.close()
             print("Tweet Created")
             return tweet
