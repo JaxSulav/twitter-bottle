@@ -19,7 +19,7 @@ def tweets():
     user_email = request.get_cookie("user_email", secret=g.COOKIE_SECRET )
     user_name = request.forms.get("user_name")
 
-    tweets = get_all_tweets(con)
+    tweets = get_all_tweets(con, user_email)
     con.close()
     
     return dict(user_email=user_email, user_name=user_name, tabs=g.TABS, tweets=tweets, trends=g.TRENDS, items=g.ITEMS, users=g.USERS)

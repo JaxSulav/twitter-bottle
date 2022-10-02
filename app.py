@@ -22,7 +22,8 @@ import os
 import sqlite3
 import argparse
 from models.user import create_user_model, create_session_model, find_session_id
-from models.tweets import create_tweet_model
+from models.tweets import create_tweet_like_model, create_tweet_model
+from api import api_tweets_others
 
 app = Bottle()
 
@@ -152,6 +153,7 @@ def migrate_db():
     create_user_model(con)
     create_session_model(con)
     create_tweet_model(con)
+    create_tweet_like_model(con)
     con.commit()
     con.close()
 

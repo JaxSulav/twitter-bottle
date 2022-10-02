@@ -1,0 +1,46 @@
+- Add login finctionality
+- Handle login errors
+- Handle automatic login in signup page
+- New model "session"
+
+- Manage logout
+- Automatic login when going on home page if session exists
+
+- Create tweet model
+- Implement Add Tweet
+- Display all tweets from tweet table in /tweets page
+- Change query in find_user
+- Update tweet in tweet feed without refreshing, app.js which will async await for tweet creat POST api for user data
+- Show tweet with image if it has image, else show tweet with only text
+
+- Create and toggle tweet modal
+- Prettify tweet modal
+- Ensure functionality in tweet modal
+
+- Add fixtures
+- Set default image by default
+- Remove image field from user creation form
+- Set the tweet image only if image is provided
+- Change the table_name position on LEFT JOIN in get_all_tweets, to get all the tweets not all the users
+- Change date format in tweet model
+- Set current date when saving tweets
+
+- Display date in tweets
+- Display buttom icons in tweets
+- Display likes count beside like button
+- Create tweet_likes model to hold users and tweet likes
+- Restrict user to only like once
+- Default blue color in heart if user already liked the tweet
+
+- Fix bug - was saving twitter post user email in tweet_like table, causing to no show colorized like button
+- Color the like button without refreshing
+- Add the number increment in like button without refreshing
+616fff44c29d2df35cc753de01b1e1e3979c1f18
+
+- Set default value of like to zero
+- Make like button work after adding new tweet
+- Save tweets time to sort according to date and time in DESC
+- Fix date not showing in first time tweet creation
+708139147e4ba93f7a1c8ee448ce4a6ccf105c1d
+
+- Fix broken icons
