@@ -1,4 +1,4 @@
-# BottlePy-Final-Project
+# BottlePy-Twitter
 module.exports = {
   mode : "jit",
   content: [
@@ -33,3 +33,12 @@ Set these 3 lines in the tailwindcss.css file:
 @tailwind utilities;
 
 npx tailwindcss -i tailwindcss.css -o ../app.css --watch
+
+
+# Setup Server
+- `source venv/bin/activate`
+- `python3 app.py migrate`
+- `python3 fixtures.py`
+
+# Run server
+- `python3 app.py runserver`
