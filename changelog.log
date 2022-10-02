@@ -26,4 +26,12 @@
 - Set current date when saving tweets
 
 - Display date in tweets
+- Display buttom icons in tweets
+- Display likes count beside like button
+- Create tweet_likes model to hold users and tweet likes
+- Restrict user to only like once
+- Default blue color in heart if user already liked the tweet
 
+- Fix bug - was saving twitter post user email in tweet_like table, causing to no show colorized like button
+- Color the like button without refreshing
+- Add the number increment in like button without refreshing

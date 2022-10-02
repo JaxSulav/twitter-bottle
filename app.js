@@ -156,12 +156,31 @@ async function delete_tweet(tweet_id){
 }
 
 //LIKES
-function likeTweet(tweet_id) {
+async function likeTweet(tweet_id) {
+    const form = new FormData()
     const element = document.getElementById("likes" + tweet_id);
-    value = parseInt(element.getAttribute("value"), 10)+1;
-    element.setAttribute("value", value)
-    element.innerHTML = value;
-  
+    span_element = document.getElementsByTagName('span')["likes_span" + tweet_id];
+    value = parseInt(span_element.getAttribute("value"), 10)+1;
+    
+    form.append("tweet_id", tweet_id)
+    form.append("likes", value)
+    const connection = await fetch("/api-like-tweet", {
+      method : "POST",
+      body : form
+    })
+
+    if( ! connection.ok ){
+      return
+    }
+    
+    const tweetResponse = await connection.text() 
+    const parsedTweet = JSON.parse(tweetResponse)
+    
+    if (parsedTweet.success == true) {
+      element.setAttribute("style", "color: deeppink")
+      span_element.innerHTML = value;
+    }
+      // ELSE UNLIKE
 }
 
 

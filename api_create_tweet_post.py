@@ -1,12 +1,10 @@
 import sqlite3
 from bottle import post, request, response
 import g
-import sqlite3
 from models.tweets import insert_tweet
 
 from models.user import find_user
 from datetime import datetime
-
 
 @post("/api-create-tweet")
 def _():
