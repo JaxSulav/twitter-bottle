@@ -150,7 +150,7 @@ async function delete_tweet(tweet_id){
     return
   }
 
-  document.querySelector(`[id='${tweet_id}']`).remove()
+  document.getElementById("tweet" + tweet_id).remove();
 }
 
 //LIKES

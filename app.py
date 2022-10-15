@@ -22,7 +22,7 @@ import os
 import sqlite3
 import argparse
 from models.user import create_user_model, create_session_model, find_session_id
-from models.tweets import create_tweet_like_model, create_tweet_model
+from models.tweets import create_tweet_like_model, create_tweet_model, delete_tweet
 from api import api_tweets_others
 
 app = Bottle()
@@ -50,16 +50,14 @@ def update_tweet():
 
 @delete("/api-delete-tweet/<tweet_id>")
 def _(tweet_id):
-    # print(g.TWEETS)
-    # for tweet in tweets:
-    #   if tweet_id == tweet["id"]:
+    con = sqlite3.connect('bottle.db')
+    success = delete_tweet(con, tweet_id)
 
-    for index, tweet in enumerate(g.TWEETS):
-        if tweet["id"] == tweet_id:
-            return "tweet deleted"
-    # print(g.TWEETS)
-    response.status = 204
-    return "no tweet found to delete"
+    if success:
+        print(f"Tweet with tweet_id {tweet_id} deleted")
+    else:
+        print(f"Tweet with tweet_id {tweet_id} deletion failed")
+    con.close()
 
 
 ############## युजर मेटाउछ ###############################

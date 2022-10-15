@@ -46,3 +46,4 @@
 - Fix broken icons
 d97894a5244f2b6664ad6d3d2c360578148c6056
 
+- Delete tweet using sql and js(datbase and frontend level)

@@ -67,6 +67,17 @@ def get_all_tweets(dbConn: sqlite3.Connection, request_user_email):
 
     return final
 
+def delete_tweet(dbConn: sqlite3.Connection, tweet_id):
+    sql_query = "DELETE from tweet WHERE id=?"
+    try:
+        dbConn.execute(sql_query, (tweet_id,))
+        dbConn.commit()
+    except Exception as e:
+        print(f"Error occurred while deleting tweet {e}")
+        return False
+        
+    return True
+
 def create_tweet_like_model(dbConn: sqlite3.Connection):
     try:
         dbConn.execute("CREATE TABLE tweet_like (id INTEGER PRIMARY KEY, tweet_id INTEGER, user_email char(200),email_tweet char(210) NOT NULL UNIQUE, CONSTRAINT fk_user FOREIGN KEY (user_email) REFERENCES user(email), CONSTRAINT fk_tweet FOREIGN KEY (tweet_id) REFERENCES tweet(id))")
