@@ -40,6 +40,30 @@
   </div>
   </div>
   </div>
+
+  <div id="tweetUpdateModal" style="justify-content: center;" class="w3-modal flex w-full mx-auto xl:w-4/5">
+    <div style="border-radius: 25px; padding: 20px;" class="w3-modal-content w3-animate-top">
+      <div style="border-radius: 25px;">
+        <strong><span style="position: inherit; display: contents;"
+            onclick="document.getElementById('tweetUpdateModal').style.display='none'"
+            class="w3-button w3-display-topright">&times;</span></strong>
+        <form style="border-radius: 25px;" class="flex flex-col relative pb-14 border border-blue1 rounded"
+          onsubmit="validate(sendTweet); return false" autocomplete="off">
+          <label for="txt-tweet" class="w-full font-thin text-sm text-gray-400 pt-2 pl-4">1 to 100 characters</label>
+          <input name="tweet_text" id="txt-update-tweet" value=""
+            class="w-full h-12 p-4 text-gray-800 rounded outline-none placeholder:text-gray-800" type="text"
+            placeholder="" data-validate="str" data-min="1" data-max="100">
+
+          <button type="submit" onclick="document.getElementById('tweetModal').style.display='none'"
+            class="absolute bottom-2 right-2 px-8 py-2 bg-blue2 text-white rounded-full" data-default="Tweet"
+            data-await="Tweeting...">
+            Update
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <section id="tweeatModal" style="justify-content: center;" class="flex w-full mx-auto xl:w-4/5 hidden">
     <div class="w-2/4 border-x border-gray-300">
       <div class="px-6">
@@ -144,7 +168,7 @@
 
       <div id="tweets" class="voices mt-4">
         % for tweet in tweets:
-        <div class="p-4 border-t border-slate-200">
+        <div id="tweet{{tweet['tweet_id']}}" class="p-4 border-t border-slate-200">
           <div class="flex">
             <img class="flex-none w-12 h-12 rounded-full" src="/images/{{tweet['user_image']}}" alt="">
             <div class="w-full pl-4">
@@ -154,7 +178,7 @@
               <p class="font-thin">
                 {{tweet["user_first_name"]}} {{tweet["user_last_name"]}} <strong>.</strong> {{tweet["tweet_date"]}}
               </p>
-              <div class="pt-2">
+              <div id="content{{tweet['tweet_id']}}" class="pt-2">
                 {{tweet["tweet_text"]}}
               </div>
               % if 'tweet_image' in tweet:
@@ -163,6 +187,9 @@
               <div class="flex gap-12 mt-4 text-lg text-gray-400 justify-between">
                 <div id="comm" class="cursor-pointer">
                   <i class="fa fa-comment"></i>
+                </div>
+                <div id="update" class="cursor-pointer">
+                  <i onclick="populateTweet({{tweet['tweet_id']}})" class="material-icons">edit</i>
                 </div>
                 <div id="del" class="cursor-pointer">
                   <i onclick="delete_tweet({{tweet['tweet_id']}})" class="material-icons">delete</i>
@@ -268,6 +295,10 @@
 
     #retweet:hover {
       color: lightseagreen;
+    }
+
+    #update:hover {
+      color: blue;
     }
   </style>
 </body>

@@ -150,7 +150,7 @@ async function delete_tweet(tweet_id){
     return
   }
 
-  document.querySelector(`[id='${tweet_id}']`).remove()
+  document.getElementById("tweet" + tweet_id).remove();
 }
 
 //LIKES
@@ -211,3 +211,9 @@ async function updateTweet(tweet_id) {
 }
 }
 
+function populateTweet(tweet_id){
+  document.getElementById('tweetUpdateModal').style.display='block';
+  let content = document.getElementById('content' + tweet_id).innerHTML;
+  content = content.trim();
+  document.getElementById('txt-update-tweet').value = content;
+}
