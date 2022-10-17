@@ -22,28 +22,31 @@ import os
 import sqlite3
 import argparse
 from models.user import create_user_model, create_session_model, find_session_id
-from models.tweets import create_tweet_like_model, create_tweet_model, delete_tweet
+from models.tweets import create_tweet_like_model, create_tweet_model, delete_tweet, update_tweet
 from api import api_tweets_others
 
 app = Bottle()
 
 @post('/api_update_tweet')
-def update_tweet():
-    
-    data = json.load(request.body)
-    tweet_id = data["tweet_id"]
-    tweet_text = data["tweet_text"]
-   
-    for tweet in g.TWEETS:
-        if tweet_id == tweet["id"]:
-            tweet["text"] = tweet_text
-            return "OK"
-    return "FALSE"
-    # allowed_keys = [ "tweet_text"]
-    # for key in request.forms.keys():
-    #   if not key in allowed_keys:
-    #     print(key)
-    #     return g._send(400, f"Forbidded key {key}")
+def tweet_update():
+    tweet_text = request.forms.get("tweet_text", "")
+    print("TEXT: ", tweet_text)
+    tweet_id = request.forms.get("tweet_id", "")
+    if len(tweet_text) < 1 or len(tweet_text) > 100:
+        response.status = 400
+        return "tweet_text invalid"
+
+    con = sqlite3.connect('bottle.db')
+    data = {
+        "tweet_id": tweet_id,
+        "text": tweet_text,
+    }
+    success = update_tweet(con, **data)
+    con.close()
+    if not success:
+        return "Could not update the tweet !!"
+        
+    return "Tweet Updated"
 
 
 ####################################################

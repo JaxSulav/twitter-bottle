@@ -182,37 +182,37 @@ async function likeTweet(tweet_id) {
 }
 
 
-async function updateTweet(tweet_id) {
-
-  const element = document.getElementById(tweet_id)
-  const text = element.querySelector('.tweet-text')
-
-
-  let response = prompt("Update Tweet", text.innerText)
-
-  if(response){
-  const form = {
-    tweet_id,
-    tweet_text : response
+async function updateTweet() {
+  event.preventDefault()
+  const tweet_id = localStorage.getItem('tweet_id');
+  let f = document.getElementById("updateForm");
+  const fd = new FormData(f);
+  fd.append("tweet_id", tweet_id)
+  
+  for (const [key, value] of fd){
+    console.log(key, value)
   }
- 
+  const tweet_text = fd.get('tweet_text');
+  document.getElementById("content" + tweet_id).innerHTML = tweet_text
+
   const connection = await fetch(`/api_update_tweet`, {
     method : "POST",
-    body : JSON.stringify(form)
+    body : fd
   })
 
   if(!connection.ok){
     return
   }
 
-
-  text.textContent = response
+  document.getElementById('tweetUpdateModal').style.display='none'
   
 }
-}
+
+
 
 function populateTweet(tweet_id){
   document.getElementById('tweetUpdateModal').style.display='block';
+  localStorage.setItem('tweet_id', tweet_id); 
   let content = document.getElementById('content' + tweet_id).innerHTML;
   content = content.trim();
   document.getElementById('txt-update-tweet').value = content;

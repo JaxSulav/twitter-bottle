@@ -49,3 +49,6 @@ d97894a5244f2b6664ad6d3d2c360578148c6056
 - Delete tweet using sql and js(datbase and frontend level)
 
 3a28d0c1dc122d82525c16647a9530eb83fc3333
+- Add edit button
+- Modal popup onclick edit button
+- display respective tweet content on the edit tweet modal

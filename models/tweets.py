@@ -34,6 +34,18 @@ def insert_tweet(dbConn: sqlite3.Connection, **data):
     print(f"Inserted {args} into tweet table")
     return True, f"Tweet created", tweet_id
 
+def update_tweet(dbConn: sqlite3.Connection, **data):
+    tweet_id = data.get("tweet_id", None)
+    text = data.get("text", None)
+    sql_query = "UPDATE tweet SET text=? WHERE id=?"
+    try:
+        dbConn.execute(sql_query, (text, tweet_id))
+        dbConn.commit()
+    except Exception as e:
+        print(f"Error occurred while updating tweet {e}")
+        return False
+    return True
+
 def get_all_tweets(dbConn: sqlite3.Connection, request_user_email):
     c = dbConn.cursor()
     c.execute("SELECT user.image, user.first_name, user.last_name, user.username, tweet.date, tweet.text, tweet.image, tweet.like, tweet.id from tweet LEFT JOIN user ON tweet.user_id=user.id ORDER BY date DESC")
