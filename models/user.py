@@ -47,6 +47,13 @@ def find_user(dbConn: sqlite3.Connection, email):
     queryset = c.fetchall()
     return queryset
 
+def get_users_for_admin(dbConn: sqlite3.Connection):
+    sql_query = "SELECT first_name, last_name, email FROM user"
+    c = dbConn.cursor()
+    c.execute(sql_query)
+    users = c.fetchall()
+    return users
+
 def insert_session(dbConn: sqlite3.Connection, session_id, email):
     sql_query = "INSERT INTO session (session_id, email) VALUES (?, ?)"
     try:

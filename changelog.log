@@ -52,3 +52,11 @@ d97894a5244f2b6664ad6d3d2c360578148c6056
 - Add edit button
 - Modal popup onclick edit button
 - display respective tweet content on the edit tweet modal
+a44dbd1d830895922b441eddfe0a9ae481eb42ec
+
+- Edit functionality for db and app level
+
+81fcdfaa21547432ab958cdec4947606e8cc8a4f
+- Add the Admin panel feature
+- Add tweet edit and Delete
+- UI improvements

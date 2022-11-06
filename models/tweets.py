@@ -46,6 +46,21 @@ def update_tweet(dbConn: sqlite3.Connection, **data):
         return False
     return True
 
+def update_tweet_for_admin(dbConn: sqlite3.Connection, **data):
+    tweet_id = data.get("tweet_id", None)
+    text = data.get("text", None)
+    date = data.get("date", None)
+    likes = data.get("likes", None)
+    print("SSS: ", tweet_id)
+    sql_query = "UPDATE tweet SET date=?, text=?, like=? WHERE id=?"
+    try:
+        dbConn.execute(sql_query, (date, text, likes, tweet_id))
+        dbConn.commit()
+    except Exception as e:
+        print(f"Error occurred while updating tweet {e}")
+        return False
+    return True
+
 def get_all_tweets(dbConn: sqlite3.Connection, request_user_email):
     c = dbConn.cursor()
     c.execute("SELECT user.image, user.first_name, user.last_name, user.username, tweet.date, tweet.text, tweet.image, tweet.like, tweet.id from tweet LEFT JOIN user ON tweet.user_id=user.id ORDER BY date DESC")
@@ -78,6 +93,18 @@ def get_all_tweets(dbConn: sqlite3.Connection, request_user_email):
         final.append(temp)
 
     return final
+
+def get_tweets_for_admin(dbConn: sqlite3.Connection):
+    c = dbConn.cursor()
+    c.execute("SELECT tweet.text, user.email, tweet.date, tweet.id, tweet.like from tweet LEFT JOIN user ON tweet.user_id=user.id ORDER BY date DESC")
+    res = c.fetchall()
+    return res
+
+def get_tweets_by_id(dbConn: sqlite3.Connection, tweet_id):
+    c = dbConn.cursor()
+    c.execute("SELECT date, text, like FROM tweet WHERE id=?", (tweet_id,))
+    res = c.fetchall()
+    return res
 
 def delete_tweet(dbConn: sqlite3.Connection, tweet_id):
     sql_query = "DELETE from tweet WHERE id=?"

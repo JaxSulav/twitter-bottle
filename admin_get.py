@@ -1,14 +1,29 @@
-from bottle import get, request, view
-
+from bottle import get, request, view, route, template, redirect
+from models.tweets import get_tweets_for_admin
+from models.user import get_users_for_admin
+import sqlite3
 
 ############## RENDERS ADMIN PAGE###############################
+@get("/admin/users")
+@route("admin-css/users")
+def users():
+    con = sqlite3.connect('bottle.db')
+    users = get_users_for_admin(con)
+    all_users = list()
+    for user in users:
+        all_users.append(list(user))
+    return template("admin-css/users", users=all_users) 
+
+@get("/admin/tweets")
+@route("admin-css/tweets")
+def tweets():
+    con = sqlite3.connect('bottle.db')
+    tweets = get_tweets_for_admin(con)
+    all_tweets = list()
+    for tweet in tweets:
+        all_tweets.append(list(tweet))
+    return template("admin-css/tweets", tweets=all_tweets) 
+
 @get("/admin")
-@view("admin")
 def admin():
-    user_id = request.params.get("user_id")
-    user_first_name = request.params.get("user_first_name")
-    user_last_name = request.params.get("user_last_name")
-    user_email = request.params.get("user_email")
-    user_name = request.params.get("user_name")
-    user_password = request.params.get("user_password")
-    return dict(user_first_name=user_first_name, user_last_name=user_last_name, user_id=user_id, user_email=user_email, user_name=user_name, user_password=user_password)
+    return redirect("/admin/users")

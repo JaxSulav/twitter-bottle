@@ -1,7 +1,7 @@
 
 from ast import arg
 from platform import architecture
-from bottle import Bottle, default_app, delete, error, get, post, put, redirect, response, run,  request, static_file, view 
+from bottle import Bottle, default_app, delete, error, get, post, put, redirect, response, run,  request, static_file, view, route
 import jwt
 import g
 import re
@@ -26,6 +26,11 @@ from models.tweets import create_tweet_like_model, create_tweet_model, delete_tw
 from api import api_tweets_others
 
 app = Bottle()
+
+
+@route('/static/<filename:path>')
+def send_static(filename):
+    return static_file(filename, root='./views/static/')
 
 @post('/api_update_tweet')
 def tweet_update():
