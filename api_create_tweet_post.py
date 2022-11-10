@@ -74,4 +74,3 @@ def _():
     if success:
         return 
     return "Could not update tweet"
-

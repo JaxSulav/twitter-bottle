@@ -146,7 +146,7 @@ async function delete_tweet(tweet_id){
     method : "DELETE"
   })
   if( ! connection.ok ){
-    alert("uppps... try again")
+    alert("oppps... try again")
     return
   }
 

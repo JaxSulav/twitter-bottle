@@ -18,6 +18,13 @@ def create_session_model(dbConn: sqlite3.Connection):
     except Exception as e:
         print(f"Error: {e}")
 
+def get_all_users(dbConn: sqlite3.Connection):
+    sql_query = "SELECT email, password, id, username, first_name, last_name, image FROM user"
+    c = dbConn.cursor()
+    c.execute(sql_query)
+    queryset = c.fetchall()
+    return queryset
+
 def insert_user(dbConn: sqlite3.Connection, **data):
     user_id = data.get("user_id", None)
     first_name = data.get("user_first_name", None)

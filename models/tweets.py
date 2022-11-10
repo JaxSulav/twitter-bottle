@@ -100,6 +100,13 @@ def get_tweets_for_admin(dbConn: sqlite3.Connection):
     res = c.fetchall()
     return res
 
+def get_tweets_by_user_id(dbConn: sqlite3.Connection, tweet_id):
+    c = dbConn.cursor()
+    sql_query = "SELECT tweet.id, user.image, user.username, user.first_name, user.last_name, tweet.text, tweet.image, tweet.like, tweet.date, user.email from tweet LEFT JOIN user ON tweet.user_id=user.id WHERE user.id=? ORDER BY date DESC"
+    c.execute(sql_query, (tweet_id,))
+    res = c.fetchall()
+    return res
+
 def get_tweets_by_id(dbConn: sqlite3.Connection, tweet_id):
     c = dbConn.cursor()
     c.execute("SELECT date, text, like FROM tweet WHERE id=?", (tweet_id,))
