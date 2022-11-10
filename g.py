@@ -27,7 +27,7 @@ TABS = [
     {"icon": "fa fa-envelope fa-fw", "title": "Messages", "id": "messages",  "href": "/messages"},
     {"icon": "fa fa-bookmark fa-fw", "title": "Bookmarks", "id": "bookmarks", "href": "/bookmarks"},
     {"icon": "fa fa-th-list fa-fw", "title": "Lists", "id": "lists",  "href": "/lists"},
-    {"icon": "fa fa-user fa-fw", "title": "Profile", "id": "profile", "href": "/profile"},
+    {"icon": "fa fa-user fa-fw", "title": "Profile", "id": "profile", "href": "/user-profile"},
     {"icon": "fa fa-sign-out", "title": "Logout", "id": "logout", "href": "/logout"},
     {"icon": "fa fa-ellipsis-h fa-fw", "title": "More", "id": "more",  "href": "/logout"}
 

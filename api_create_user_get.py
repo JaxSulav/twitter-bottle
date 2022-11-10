@@ -28,7 +28,13 @@ def create_user():
     user_email = request.forms.get("user_email")
     user_name = request.forms.get("user_name")
     user_password = request.forms.get("user_password")
-    user_image = request.forms.get("user_image", None)
+
+    user_image = request.files.get("user_image")
+    save_path = "images/" 
+    filename = str(user_name) + str(user_image.filename)
+
+    file_path = "{path}/{file}".format(path=save_path, file=filename)
+    user_image.save(file_path)
     
     user = {
         "user_id": user_id,
@@ -40,7 +46,7 @@ def create_user():
     }
 
     if user_image:
-        user["user_image_path"] = user_image
+        user["user_image_path"] = save_path + filename
 
     con = sqlite3.connect('bottle.db')
     success, _ = insert_user(con, **user)
